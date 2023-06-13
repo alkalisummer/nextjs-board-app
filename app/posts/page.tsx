@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import React from 'react';
+import CreatePost from './CreatePost';
 
 async function getPost() {
   const res = await fetch('http://127.0.0.1:8090/api/collections/posts/records', { cache: 'no-store' });
@@ -21,6 +22,7 @@ const PostsPage = async () => {
           />
         );
       })}
+      <CreatePost />
     </div>
   );
 };
