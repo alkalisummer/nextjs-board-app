@@ -1,24 +1,23 @@
-async function getPost(postId: string) {
-  const res = await fetch(`http://127.0.0.1:8090/api/collections/posts/records/${postId}`, { next: { revalidate: 10 } });
-  const data = res.json();
-
-  if (!res.ok) {
-    // 가장 가까이에 있는 error.js가 activated
-    throw new Error('Failed to fetch data');
-  }
-  return data;
-}
+import fetchPost from '@/app/fetchPost';
+import '../../../../styles/Post.css';
+import Link from 'next/link';
 
 const PostDetailPage = async ({ params }: any) => {
-  const post = await getPost(params.id);
+  const post = await fetchPost(params.id);
+  const dateFormat = new Date(post.updated).toLocaleString('ko-kr', { hour12: false, timeStyle: 'medium', dateStyle: 'long' }).substr(0, 18);
   return (
-    <div>
-      <h1>posts/{post.id}</h1>
-      <div>
-        <h3>{post.title}</h3>
-        <pre>{post.content}</pre>
-        <p>{post.created}</p>
+    <div className='post_div'>
+      <div className='post_title_created'>
+        <span className='post_title'>{post.title}</span>
+        <div className='post_created'>
+          <span className='mg-r-10'>{dateFormat}</span>|
+          <Link href={`/posts/edit/${params.id}`}>
+            <span className='mg-r-10 mg-l-10'>수정</span>
+          </Link>
+          |<span className='mg-l-10'>삭제</span>
+        </div>
       </div>
+      <p className='post_content'>{post.content}</p>
     </div>
   );
 };

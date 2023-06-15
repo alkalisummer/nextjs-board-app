@@ -14,9 +14,11 @@ const CreatePost = () => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         title,
+        content,
       }),
     });
     setTitle('');
+    setContent('');
     router.refresh();
   };
   return (

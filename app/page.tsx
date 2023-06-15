@@ -29,9 +29,8 @@ const HomePage = async () => {
 };
 
 const PostItem = ({ post }: any) => {
-  const { id, title, content, created } = post || {};
-  const dateFormat = created.substr(0, 16);
-  debugger;
+  const { id, title, content, updated } = post || {};
+  const dateFormat = new Date(updated).toLocaleString('ko-kr', { hour12: false, timeStyle: 'medium', dateStyle: 'long' }).substr(0, 18);
   return (
     <div className='home_post_title_content'>
       <Link href={`/posts/detail/${id}`}>
