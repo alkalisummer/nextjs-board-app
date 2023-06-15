@@ -1,7 +1,7 @@
 import React from 'react';
 
 const fetchPost = async (postId: string) => {
-  const res = await fetch(`http://127.0.0.1:8090/api/collections/posts/records/${postId}`, { next: { revalidate: 10 } });
+  const res = await fetch(`http://127.0.0.1:8090/api/collections/posts/records/${postId}`, { cache: 'no-store' });
   const data = res.json();
 
   if (!res.ok) {

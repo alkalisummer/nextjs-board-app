@@ -35,6 +35,7 @@ const EditPost = ({ params }: any) => {
     setContent('');
     setRecordId('');
     router.refresh();
+    router.push(`/posts/detail/${params.id}`);
   };
 
   return (
@@ -56,7 +57,18 @@ const EditPost = ({ params }: any) => {
         placeholder='내용을 입력하세요.'
         onChange={(e) => setContent(e.target.value)}
       />
-      <button type='submit'>수정</button>
+      <div className='post_btn_div'>
+        <button
+          className='post_cancel_btn'
+          onClick={() => router.push(`/posts/detail/${params.id}`)}>
+          취소
+        </button>
+        <button
+          className='post_submit_btn'
+          type='submit'>
+          수정
+        </button>
+      </div>
     </form>
   );
 };

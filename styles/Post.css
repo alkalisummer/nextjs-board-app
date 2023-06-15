@@ -46,7 +46,9 @@
 .post_content_textarea {
   border: none;
   margin-top: 20px;
-  height: 720px;
+  height: 710px;
+  resize: none;
+  font-family: 'Spoqa Han Sans Neo';
 }
 
 .mg-r-10 {
@@ -55,4 +57,34 @@
 
 .mg-l-10 {
   margin-left: 10px;
+}
+
+.post_btn_div {
+  display: flex;
+  justify-content: end;
+}
+
+.post_submit_btn {
+  border-radius: 20px;
+  border: none;
+  width: 61px;
+  height: 30px;
+  font-family: 'Spoqa Han Sans Neo';
+  font-weight: 200;
+  background-color: black;
+  color: white;
+  cursor: pointer;
+}
+
+.post_cancel_btn {
+  border-radius: 20px;
+  border: 1px solid #d0d0d0;
+  width: 61px;
+  height: 30px;
+  margin-right: 10px;
+  font-family: 'Spoqa Han Sans Neo';
+  font-weight: 200;
+  background-color: #f5f5f5;
+  color: #333;
+  cursor: pointer;
 }
