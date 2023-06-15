@@ -38,6 +38,11 @@ const EditPost = ({ params }: any) => {
     router.push(`/posts/detail/${params.id}`);
   };
 
+  const handleCancel = (e) => {
+    e.preventDefault();
+    router.push(`/posts/detail/${params.id}`);
+  };
+
   return (
     <form
       className='post_div'
@@ -60,7 +65,7 @@ const EditPost = ({ params }: any) => {
       <div className='post_btn_div'>
         <button
           className='post_cancel_btn'
-          onClick={() => router.push(`/posts/detail/${params.id}`)}>
+          onClick={(e) => handleCancel(e)}>
           취소
         </button>
         <button
