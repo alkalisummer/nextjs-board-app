@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 const PostDetailPage = async ({ params }: any) => {
   const post = await fetchPost(params.id);
-  const dateFormat = new Date(post.updated).toLocaleString('ko-kr', { hour12: false, timeStyle: 'medium', dateStyle: 'long' }).substr(0, 18);
+  const dateFormat = new Date(post.updated).toLocaleString('ko-kr', { hour12: false, timeStyle: 'short', dateStyle: 'long' });
   return (
     <div className='post_div'>
       <div className='post_title_created'>

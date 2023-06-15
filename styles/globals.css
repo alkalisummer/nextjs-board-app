@@ -39,7 +39,7 @@ body {
 
 .right_area {
   width: 77%;
-  padding-top: 4.5rem;
+  height: 100%;
 }
 
 .create_btn {
@@ -55,7 +55,7 @@ body {
   position: absolute;
   bottom: 0;
   width: 77%;
-  height: 50px;
+  height: 5%;
   border-top: 1px solid #efefef;
 
   display: flex;

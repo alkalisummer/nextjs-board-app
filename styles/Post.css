@@ -1,8 +1,14 @@
+.post_area {
+  height: 95%;
+}
+
 .post_div {
   padding-left: 8rem;
   padding-right: 8rem;
+  padding-top: 4rem;
   display: flex;
   flex-direction: column;
+  height: 98%;
 }
 
 .post_title_created {
@@ -40,15 +46,15 @@
   border-bottom: 0px solid #efefef;
   font-size: 30px;
   padding-bottom: 15px;
-  margin-bottom: 20px;
 }
 
 .post_content_textarea {
   border: none;
   margin-top: 20px;
-  height: 710px;
+  height: 76%;
   resize: none;
   font-family: 'Spoqa Han Sans Neo';
+  margin-bottom: 10px;
 }
 
 .mg-r-10 {
