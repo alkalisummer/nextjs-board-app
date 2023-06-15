@@ -5,6 +5,7 @@ import React, { useState } from 'react';
 
 const CreatePost = () => {
   const [title, setTitle] = useState('');
+  const [content, setContent] = useState('');
   const router = useRouter();
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -22,11 +23,18 @@ const CreatePost = () => {
     <form onSubmit={handleSubmit}>
       <input
         type='text'
-        placeholder='Title'
+        className='post_title_input'
+        placeholder='제목을 입력하세요'
         value={title}
         onChange={(e) => setTitle(e.target.value)}
       />
-      <button type='submit'>Create Post</button>
+      <textarea
+        className='post_content_textarea'
+        placeholder='내용을 입력하세요'
+        value={content}
+        onChange={(e) => setContent(e.target.value)}
+      />
+      <button type='submit'>완료</button>
     </form>
   );
 };
