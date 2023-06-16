@@ -10,10 +10,10 @@ const CreatePost = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (title.replace(' ', '').length === 0) {
+    if (title.replaceAll(' ', '').length === 0) {
       alert('제목을 입력하세요.');
       return;
-    } else if (content.replace(' ', '').length === 0) {
+    } else if (content.replaceAll(' ', '').length === 0) {
       alert('내용을 입력하세요.');
       return;
     }
