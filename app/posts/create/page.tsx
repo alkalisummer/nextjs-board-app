@@ -9,6 +9,15 @@ const CreatePost = () => {
   const router = useRouter();
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (title.replace(' ', '').length === 0) {
+      alert('제목을 입력하세요.');
+      return;
+    } else if (content.replace(' ', '').length === 0) {
+      alert('내용을 입력하세요.');
+      return;
+    }
+
     const request = await fetch('http://127.0.0.1:8090/api/collections/posts/records', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -19,7 +28,6 @@ const CreatePost = () => {
     })
       .then((response) => response.json())
       .then(function (res) {
-        debugger;
         setTitle('');
         setContent('');
         router.refresh();
@@ -36,6 +44,7 @@ const CreatePost = () => {
           className='post_title_input'
           placeholder='제목을 입력하세요'
           value={title}
+          maxLength={300}
           onChange={(e) => setTitle(e.target.value)}
         />
       </div>
@@ -43,6 +52,7 @@ const CreatePost = () => {
         className='post_content_textarea'
         placeholder='내용을 입력하세요'
         value={content}
+        maxLength={3000}
         onChange={(e) => setContent(e.target.value)}
       />
       <div className='post_btn_div'>

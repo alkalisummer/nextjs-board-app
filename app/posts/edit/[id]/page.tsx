@@ -22,6 +22,15 @@ const EditPost = ({ params }: any) => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (title.replace(' ', '').length === 0) {
+      alert('제목을 입력하세요.');
+      return;
+    } else if (content.replace(' ', '').length === 0) {
+      alert('내용을 입력하세요.');
+      return;
+    }
+
     await fetch(`http://127.0.0.1:8090/api/collections/posts/records/${params.id}`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
@@ -48,6 +57,7 @@ const EditPost = ({ params }: any) => {
           className='post_title_input'
           value={title}
           placeholder='제목을 입력하세요'
+          maxLength={300}
           onChange={(e) => setTitle(e.target.value)}
         />
       </div>
@@ -55,6 +65,7 @@ const EditPost = ({ params }: any) => {
         value={content}
         className='post_content_textarea'
         placeholder='내용을 입력하세요.'
+        maxLength={3000}
         onChange={(e) => setContent(e.target.value)}
       />
       <div className='post_btn_div'>
