@@ -8,6 +8,8 @@
   padding-left: 8rem;
   padding-right: 8rem;
   padding-top: 3rem;
+  overflow-y: auto;
+  max-height: 82%;
 }
 
 .home_header {
