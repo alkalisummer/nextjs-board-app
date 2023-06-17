@@ -2,14 +2,39 @@ import Link from 'next/link';
 import React from 'react';
 import '../styles/Home.css';
 
-async function getPost() {
-  const res = await fetch('http://127.0.0.1:8090/api/collections/posts/records', { cache: 'no-store' });
+async function getPost(pageNum: string) {
+  const baseUrl = 'http://127.0.0.1:8090/api/collections/posts/records';
+  const params = {
+    page: pageNum,
+    perPage: '3',
+    sort: '-updated',
+  };
+  const queryString = new URLSearchParams(params).toString();
+  const reqUrl = `${baseUrl}?${queryString}`;
+  const res = await fetch(reqUrl, {
+    method: 'GET',
+    cache: 'no-cache',
+  });
   const data = await res.json();
-  return data?.items as any[];
+  return data ? data : {};
 }
 
 const HomePage = async () => {
-  const posts = await getPost();
+  const res = await getPost('1');
+  const posts = res.items as any[];
+
+  const getTotalPostsArr = () => {
+    const totalPostCnt = res.totalItems;
+    const totalPageNum = totalPostCnt / 3 + 1;
+    let arr = [];
+
+    for (let i = 1; i <= totalPageNum; i++) {
+      arr.push(i);
+    }
+
+    return arr;
+  };
+  const totalPostsArr = getTotalPostsArr();
 
   return (
     <div className='home_post'>
@@ -24,6 +49,13 @@ const HomePage = async () => {
           />
         );
       })}
+      <div className='home_page_nav'>
+        <span className='home_page_nav_prev'>〈 Prev</span>
+        {totalPostsArr.map((obj: number, idx: number) => {
+          return <span key={idx}>{obj}</span>;
+        })}
+        <span className='home_page_nav_next'>Next 〉</span>
+      </div>
     </div>
   );
 };
