@@ -1,3 +1,10 @@
+.home_div {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 95%;
+}
+
 .home_post_cnt {
   font-weight: normal;
   font-size: 20px;
@@ -9,7 +16,7 @@
   padding-right: 8rem;
   padding-top: 3rem;
   overflow-y: auto;
-  max-height: 82%;
+  height: 90%;
 }
 
 .home_header {
@@ -45,7 +52,27 @@
 }
 
 .home_page_nav {
+  height: 5%;
+  text-align: center;
+  line-height: 50px;
+  color: #5c5c5c;
+  font-size: 14px;
+}
+.home_page_nav_prev {
+  margin-right: 35px;
+  cursor: pointer;
 }
 
 .home_page_nav_next {
+  cursor: pointer;
+}
+
+.home_page_num {
+  margin-right: 35px;
+  cursor: pointer;
+}
+
+.home_page_nav_arr {
+  font-weight: bolder;
+  cursor: pointer;
 }

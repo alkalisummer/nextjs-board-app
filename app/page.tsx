@@ -37,24 +37,36 @@ const HomePage = async () => {
   const totalPostsArr = getTotalPostsArr();
 
   return (
-    <div className='home_post'>
-      <div className='home_header'>
-        <span className='home_post_cnt'>{`전체 글(${posts.length})`}</span>
-      </div>
-      {posts?.map((post) => {
-        return (
-          <PostItem
-            key={post.id}
-            post={post}
-          />
-        );
-      })}
-      <div className='home_page_nav'>
-        <span className='home_page_nav_prev'>〈 Prev</span>
-        {totalPostsArr.map((obj: number, idx: number) => {
-          return <span key={idx}>{obj}</span>;
+    <div className='home_div'>
+      <div className='home_post'>
+        <div className='home_header'>
+          <span className='home_post_cnt'>{`전체 글(${posts.length})`}</span>
+        </div>
+        {posts?.map((post) => {
+          return (
+            <PostItem
+              key={post.id}
+              post={post}
+            />
+          );
         })}
-        <span className='home_page_nav_next'>Next 〉</span>
+      </div>
+      <div className='home_page_nav'>
+        <span className='home_page_nav_prev'>
+          <span className='home_page_nav_arr'>&lt;</span> &nbsp;&nbsp;Prev
+        </span>
+        {totalPostsArr.map((obj: number, idx: number) => {
+          return (
+            <span
+              key={idx}
+              className='home_page_num'>
+              {obj}
+            </span>
+          );
+        })}
+        <span className='home_page_nav_next'>
+          Next&nbsp;&nbsp; <span className='home_page_nav_arr'>&gt;</span>
+        </span>
       </div>
     </div>
   );
