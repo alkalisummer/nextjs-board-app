@@ -54,9 +54,11 @@
 .home_page_nav {
   height: 5%;
   text-align: center;
-  line-height: 50px;
+  line-height: 33px;
   color: #5c5c5c;
   font-size: 14px;
+  display: flex;
+  justify-content: center;
 }
 .home_page_nav_prev {
   margin-right: 35px;
@@ -65,14 +67,24 @@
 
 .home_page_nav_next {
   cursor: pointer;
+  margin-left: 25px;
 }
 
 .home_page_num {
-  margin-right: 35px;
+  margin-right: 10px;
+  width: 30px;
   cursor: pointer;
 }
 
 .home_page_nav_arr {
   font-weight: bolder;
   cursor: pointer;
+}
+
+.home_page_slct_num {
+  background-color: #6bacce;
+  height: 30px;
+  width: 30px;
+  color: white;
+  border-radius: 50%;
 }
