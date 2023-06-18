@@ -1,11 +1,13 @@
+'use client';
+
 import Link from 'next/link';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import '../styles/Home.css';
 
-async function getPost(pageNum: string) {
+const getPost = async (pageNum: number) => {
   const baseUrl = 'http://127.0.0.1:8090/api/collections/posts/records';
   const params = {
-    page: pageNum,
+    page: pageNum.toString(),
     perPage: '3',
     sort: '-updated',
   };
@@ -17,15 +19,18 @@ async function getPost(pageNum: string) {
   });
   const data = await res.json();
   return data ? data : {};
-}
+};
 
-const HomePage = async () => {
-  const res = await getPost('1');
-  const posts = res.items as any[];
+const HomePage = () => {
+  const [currentNum, setCurrentNum] = useState(1);
+  const [posts, setPosts] = useState({ page: 1, perPage: 3, totalItems: 0, items: [] });
+  useEffect(() => {
+    getPost(1).then((res) => setPosts(res));
+  }, []);
 
   const getTotalPostsArr = () => {
-    const totalPostCnt = res.totalItems;
-    const totalPageNum = totalPostCnt / 3 + 1;
+    const totalPostCnt = posts.totalItems;
+    const totalPageNum = totalPostCnt % 3 > 0 ? totalPostCnt / 3 + 1 : totalPostCnt / 3;
     let arr = [];
 
     for (let i = 1; i <= totalPageNum; i++) {
@@ -34,15 +39,26 @@ const HomePage = async () => {
 
     return arr;
   };
+
+  const handlePagination = async (e: React.MouseEvent<HTMLSpanElement>) => {
+    const selectNum = e.currentTarget.textContent ?? null;
+    if (selectNum) {
+      await getPost(parseInt(selectNum)).then((res) => {
+        setPosts(res);
+        setCurrentNum(parseInt(selectNum));
+      });
+    }
+  };
+
   const totalPostsArr = getTotalPostsArr();
 
   return (
     <div className='home_div'>
       <div className='home_post'>
         <div className='home_header'>
-          <span className='home_post_cnt'>{`전체 글(${posts.length})`}</span>
+          <span className='home_post_cnt'>{`전체 글(${posts.items.length})`}</span>
         </div>
-        {posts?.map((post) => {
+        {posts.items?.map((post: any) => {
           return (
             <PostItem
               key={post.id}
@@ -59,7 +75,8 @@ const HomePage = async () => {
           return (
             <span
               key={idx}
-              className='home_page_num'>
+              className={`home_page_num ${currentNum === idx + 1 ? 'home_page_slct_num' : ''}`}
+              onClick={(e) => handlePagination(e)}>
               {obj}
             </span>
           );
