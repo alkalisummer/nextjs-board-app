@@ -8,7 +8,7 @@ const getPost = async (pageNum: number) => {
   const baseUrl = 'http://127.0.0.1:8090/api/collections/posts/records';
   const params = {
     page: pageNum.toString(),
-    perPage: '3',
+    perPage: '6',
     sort: '-updated',
   };
   const queryString = new URLSearchParams(params).toString();
@@ -23,14 +23,14 @@ const getPost = async (pageNum: number) => {
 
 const HomePage = () => {
   const [currentNum, setCurrentNum] = useState(1);
-  const [posts, setPosts] = useState({ page: 1, perPage: 3, totalItems: 0, items: [] });
+  const [posts, setPosts] = useState({ page: 1, perPage: 6, totalItems: 0, items: [] });
   useEffect(() => {
     getPost(1).then((res) => setPosts(res));
   }, []);
 
   const getTotalPostsArr = () => {
     const totalPostCnt = posts.totalItems;
-    const totalPageNum = totalPostCnt % 3 > 0 ? totalPostCnt / 3 + 1 : totalPostCnt / 3;
+    const totalPageNum = totalPostCnt % 6 > 0 ? totalPostCnt / 6 + 1 : totalPostCnt / 6;
     let arr = [];
 
     for (let i = 1; i <= totalPageNum; i++) {
@@ -40,8 +40,8 @@ const HomePage = () => {
     return arr;
   };
 
-  const handlePagination = async (e: React.MouseEvent<HTMLSpanElement>) => {
-    const selectNum = e.currentTarget.textContent ?? null;
+  const handlePagination = async (pageNum: any) => {
+    const selectNum = pageNum ?? null;
     if (selectNum) {
       await getPost(parseInt(selectNum)).then((res) => {
         setPosts(res);
@@ -68,7 +68,9 @@ const HomePage = () => {
         })}
       </div>
       <div className='home_page_nav'>
-        <span className='home_page_nav_prev'>
+        <span
+          className='home_page_nav_prev'
+          onClick={(e) => handlePagination(currentNum - 1)}>
           <span className='home_page_nav_arr'>&lt;</span> &nbsp;&nbsp;Prev
         </span>
         {totalPostsArr.map((obj: number, idx: number) => {
@@ -76,12 +78,14 @@ const HomePage = () => {
             <span
               key={idx}
               className={`home_page_num ${currentNum === idx + 1 ? 'home_page_slct_num' : ''}`}
-              onClick={(e) => handlePagination(e)}>
+              onClick={(e) => handlePagination(e.currentTarget.textContent)}>
               {obj}
             </span>
           );
         })}
-        <span className='home_page_nav_next'>
+        <span
+          className='home_page_nav_next'
+          onClick={(e) => handlePagination(currentNum + 1)}>
           Next&nbsp;&nbsp; <span className='home_page_nav_arr'>&gt;</span>
         </span>
       </div>
