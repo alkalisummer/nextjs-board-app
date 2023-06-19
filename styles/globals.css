@@ -68,3 +68,16 @@ body {
 .right_footer_text {
   color: #6bacce;
 }
+
+@media (max-width: 768px) {
+  .left_area {
+    display: none;
+  }
+  .right_area {
+    width: 100%;
+  }
+  .right_footer {
+    width: 100%;
+    font-size: 10px;
+  }
+}
