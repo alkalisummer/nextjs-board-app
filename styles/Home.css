@@ -145,4 +145,22 @@
     border: none;
     cursor: pointer;
   }
+
+  .home_page_nav_prev {
+    font-size: 12px;
+  }
+
+  .home_page_nav_next {
+    font-size: 12px;
+  }
+
+  .home_page_num {
+    font-size: 12px;
+    line-height: 26px;
+    margin-top: 4px;
+  }
+  .home_page_slct_num {
+    height: 25px;
+    width: 25px;
+  }
 }
