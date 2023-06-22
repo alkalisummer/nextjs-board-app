@@ -1,6 +1,6 @@
 'use client';
 
-import fetchPost from '../../../fetchPost';
+import fetchPost from '../../../api/route';
 import '../../../../styles/Post.css';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';

@@ -4,28 +4,15 @@ import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 import '../styles/Home.css';
 
-const getPost = async (pageNum: number) => {
-  const baseUrl = 'http://127.0.0.1:8090/api/collections/posts/records';
-  const params = {
-    page: pageNum.toString(),
-    perPage: '6',
-    sort: '-updated',
-  };
-  const queryString = new URLSearchParams(params).toString();
-  const reqUrl = `${baseUrl}?${queryString}`;
-  const res = await fetch(reqUrl, {
-    method: 'GET',
-    cache: 'no-cache',
-  });
-  const data = await res.json();
-  return data ? data : {};
-};
-
 const HomePage = () => {
   const [currentNum, setCurrentNum] = useState(1);
-  const [posts, setPosts] = useState({ page: 1, perPage: 6, totalItems: 0, items: [] });
+  const [posts, setPosts] = useState({ totalItems: 0, items: [] });
+
   useEffect(() => {
-    getPost(1).then((res) => setPosts(res));
+    //getPost('read', {}).then((res) => setPosts(res));
+    fetch('/api').then((res) => {
+      debugger;
+    });
   }, []);
 
   const getTotalPostsArr = () => {
@@ -42,12 +29,12 @@ const HomePage = () => {
 
   const handlePagination = async (pageNum: any) => {
     const selectNum = pageNum ?? null;
-    if (selectNum) {
-      await getPost(parseInt(selectNum)).then((res) => {
-        setPosts(res);
-        setCurrentNum(parseInt(selectNum));
-      });
-    }
+    // if (selectNum) {
+    //   await getPost('read', { pageNum: selectNum }).then((res) => {
+    //     setPosts(res);
+    //     setCurrentNum(parseInt(selectNum));
+    //   });
+    // }
   };
 
   const totalPostsArr = getTotalPostsArr();
@@ -73,28 +60,30 @@ const HomePage = () => {
           );
         })}
       </div>
-      <div className='home_page_nav'>
-        <span
-          className='home_page_nav_prev'
-          onClick={(e) => handlePagination(currentNum - 1)}>
-          <span className='home_page_nav_arr'>&lt;</span> &nbsp;&nbsp;Prev
-        </span>
-        {totalPostsArr.map((obj: number, idx: number) => {
-          return (
-            <span
-              key={idx}
-              className={`home_page_num ${currentNum === idx + 1 ? 'home_page_slct_num' : ''}`}
-              onClick={(e) => handlePagination(e.currentTarget.textContent)}>
-              {obj}
-            </span>
-          );
-        })}
-        <span
-          className='home_page_nav_next'
-          onClick={(e) => handlePagination(currentNum + 1)}>
-          Next&nbsp;&nbsp; <span className='home_page_nav_arr'>&gt;</span>
-        </span>
-      </div>
+      {
+        <div className='home_page_nav'>
+          <span
+            className='home_page_nav_prev'
+            onClick={(e) => handlePagination(currentNum - 1)}>
+            <span className='home_page_nav_arr'>&lt;</span> &nbsp;&nbsp;Prev
+          </span>
+          {totalPostsArr.map((obj: number, idx: number) => {
+            return (
+              <span
+                key={idx}
+                className={`home_page_num ${currentNum === idx + 1 ? 'home_page_slct_num' : ''}`}
+                onClick={(e) => handlePagination(e.currentTarget.textContent)}>
+                {obj}
+              </span>
+            );
+          })}
+          <span
+            className='home_page_nav_next'
+            onClick={(e) => handlePagination(currentNum + 1)}>
+            Next&nbsp;&nbsp; <span className='home_page_nav_arr'>&gt;</span>
+          </span>
+        </div>
+      }
     </div>
   );
 };
