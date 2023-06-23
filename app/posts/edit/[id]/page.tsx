@@ -1,8 +1,8 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { useRouter } from 'next/navigation';
-import fetchPost from '@/app/fetchPost';
 
 const EditPost = ({ params }: any) => {
   const [title, setTitle] = useState('');
@@ -10,10 +10,17 @@ const EditPost = ({ params }: any) => {
   const [recordId, setRecordId] = useState(params.id);
   const router = useRouter();
 
+  const param = {
+    type: '',
+    postId: params.id,
+  };
+
   const getPost = async () => {
-    const post = await fetchPost(params.id);
-    setTitle(post.title);
-    setContent(post.content);
+    param.type = 'read';
+    await axios.get('/api/handlePost', { params: param }).then((res) => {
+      setTitle(res.data.items[0].post_title);
+      setContent(res.data.items[0].post_cntn);
+    });
   };
 
   useEffect(() => {

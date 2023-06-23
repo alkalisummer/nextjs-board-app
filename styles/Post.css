@@ -69,6 +69,10 @@
   margin-left: 10px;
 }
 
+.pointer {
+  cursor: pointer;
+}
+
 .post_btn_div {
   display: flex;
   justify-content: end;

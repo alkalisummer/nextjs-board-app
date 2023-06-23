@@ -15,6 +15,8 @@ export default async function handlePost(request: NextApiRequest, response: Next
   let params;
   let connection;
   let sql = '';
+  let post;
+  let postId;
   let result: { totalItems: number; items: any[]; postId: string } = {
     totalItems: 0,
     items: [],
@@ -34,17 +36,18 @@ export default async function handlePost(request: NextApiRequest, response: Next
       sql = 'SELECT * FROM POST';
       break;
     case 'read':
-      const postId = params.postId;
+      postId = params.postId;
       sql = `SELECT * FROM POST WHERE POST_ID = ${postId}`;
-
       break;
     case 'insert':
-      const post = params.post;
+      post = params.post;
       sql = `INSERT INTO POST ( POST_TITLE, POST_CNTN, RGSN_DTTM, AMNT_DTTM ) VALUES ( '${post.post_title}', '${post.post_cntn}', '${post.rgsn_dttm}', '${post.amnt_dttm}')`;
       break;
     case 'update':
       break;
     case 'delete':
+      postId = params.postId;
+      sql = `DELETE FROM POST WHERE POST_ID = ${postId}`;
       break;
   }
 

@@ -5,9 +5,10 @@ import Link from 'next/link';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { timeFormat } from '@/app/utils/commonUtils';
 
 const PostDetailPage = ({ params }: any) => {
-  const [post, setPost] = useState<{ [key: string]: any }>({});
+  const [post, setPost] = useState({ post_title: '', post_cntn: '', amnt_dttm: '' });
   const router = useRouter();
 
   const param = {
@@ -17,7 +18,9 @@ const PostDetailPage = ({ params }: any) => {
 
   const getPost = async () => {
     param.type = 'read';
-    await axios.get('/api/handlePost', { params: param }).then((res) => setPost(res.data.result));
+    await axios.get('/api/handlePost', { params: param }).then((res) => {
+      setPost(res.data.items[0]);
+    });
   };
 
   useEffect(() => {
@@ -26,8 +29,8 @@ const PostDetailPage = ({ params }: any) => {
 
   const handleDelete = async () => {
     param.type = 'delete';
-    const request = await axios.post('/api/handlePost', { params: param }).then(() => {
-      setPost({});
+    await axios.get('/api/handlePost', { params: param }).then(() => {
+      setPost({ post_title: '', post_cntn: '', amnt_dttm: '' });
       router.refresh();
       router.push('/');
     });
@@ -37,13 +40,13 @@ const PostDetailPage = ({ params }: any) => {
       <div className='post_title_created'>
         <span className='post_title'>{post.post_title}</span>
         <div className='post_created'>
-          <span className='mg-r-10'>{post.amnt_dttm}</span>|
+          <span className='mg-r-10 pointer'>{timeFormat(post.amnt_dttm)}</span>|
           <Link href={`/posts/edit/${params.id}`}>
             <span className='mg-r-10 mg-l-10'>수정</span>
           </Link>
           |
           <span
-            className='mg-l-10'
+            className='mg-l-10 pointer'
             onClick={() => handleDelete()}>
             삭제
           </span>
