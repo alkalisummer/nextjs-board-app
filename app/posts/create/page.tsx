@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import timeFormat from '@/app/timeFormat';
+import timeToString from '@/app/utils/commonUtils';
 import React, { useState } from 'react';
 import axios from 'axios';
 
@@ -9,7 +9,7 @@ const CreatePost = () => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const router = useRouter();
-  const currentTime = timeFormat(new Date());
+  const currentTime = timeToString(new Date());
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -24,7 +24,6 @@ const CreatePost = () => {
     const postData = {
       type: 'insert',
       post: {
-        post_id: 'POST' + currentTime,
         post_title: title,
         post_cntn: content,
         rgsn_dttm: currentTime,
@@ -35,11 +34,10 @@ const CreatePost = () => {
       .post('/api/handlePost', { postData })
       .then((response) => response.data)
       .then(function (res) {
-        debugger;
         setTitle('');
         setContent('');
         router.refresh();
-        //router.push(`/posts/detail/${res.id}`);
+        router.push(`/posts/detail/${res.postId}`);
       });
   };
   return (

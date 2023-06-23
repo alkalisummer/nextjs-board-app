@@ -1,6 +1,6 @@
 import React from 'react';
 
-const timeFormat = (dateParam: Date) => {
+export default function timeToString(dateParam: Date) {
   let year: number | string = dateParam.getFullYear();
   let month: number | string = dateParam.getMonth() + 1;
   let date: number | string = dateParam.getDate();
@@ -26,6 +26,16 @@ const timeFormat = (dateParam: Date) => {
 
   const fullTimeFormat = `${year}${month}${date}${hour}${min}${sec}`;
   return fullTimeFormat;
-};
+}
 
-export default timeFormat;
+export function timeFormat(currTime: string) {
+  const year = currTime.slice(0, 4);
+  const month = currTime.slice(4, 6);
+  const date = currTime.slice(6, 8);
+  const hour = currTime.slice(8, 10);
+  const min = currTime.slice(10, 12);
+
+  const fullTimeFormat = `${year}. ${month}. ${date}. ${hour}:${min}`;
+
+  return fullTimeFormat;
+}

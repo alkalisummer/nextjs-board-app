@@ -15,9 +15,10 @@ export default async function handlePost(request: NextApiRequest, response: Next
   let params;
   let connection;
   let sql = '';
-  let result: { totalItems: number; items: any[] } = {
+  let result: { totalItems: number; items: any[]; postId: string } = {
     totalItems: 0,
     items: [],
+    postId: '',
   };
   if (request.method === 'GET') {
     params = request.query;
@@ -39,7 +40,7 @@ export default async function handlePost(request: NextApiRequest, response: Next
       break;
     case 'insert':
       const post = params.post;
-      sql = `INSERT INTO POST ( POST_ID, POST_TITLE, POST_CNTN, RGSN_DTTM, AMNT_DTTM ) VALUES ( '${post.post_id}', '${post.post_title}', '${post.post_cntn}', '${post.rgsn_dttm}', '${post.amnt_dttm}')`;
+      sql = `INSERT INTO POST ( POST_TITLE, POST_CNTN, RGSN_DTTM, AMNT_DTTM ) VALUES ( '${post.post_title}', '${post.post_cntn}', '${post.rgsn_dttm}', '${post.amnt_dttm}')`;
       break;
     case 'update':
       break;
@@ -51,12 +52,16 @@ export default async function handlePost(request: NextApiRequest, response: Next
     if (err) {
       console.log(err);
     } else {
-      let rowArr = [];
-      for (let row of data) {
-        rowArr.push(row);
+      if (!data.length) {
+        result.postId = data.insertId;
+      } else {
+        let rowArr = [];
+        for (let row of data) {
+          rowArr.push(row);
+        }
+        result.totalItems = rowArr.length;
+        result.items = rowArr;
       }
-      result.totalItems = rowArr.length;
-      result.items = rowArr;
 
       return response.status(200).json(result);
     }

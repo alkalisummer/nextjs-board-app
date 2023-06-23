@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { timeFormat } from './utils/commonUtils';
 import '../styles/Home.css';
 
 const HomePage = () => {
@@ -11,8 +12,7 @@ const HomePage = () => {
 
   useEffect(() => {
     getPost({ type: 'list' }).then((res) => {
-      debugger;
-      setPosts(res.data.result);
+      setPosts(res.data);
     });
   }, []);
 
@@ -103,7 +103,7 @@ const PostItem = ({ post }: any) => {
           <p className='home_post_content'>{post_cntn ? post_cntn : '작성된 내용이 없습니다.'}</p>
         </div>
       </Link>
-      <span className='home_post_created'>{amnt_dttm}</span>
+      <span className='home_post_created'>{timeFormat(amnt_dttm)}</span>
     </div>
   );
 };
