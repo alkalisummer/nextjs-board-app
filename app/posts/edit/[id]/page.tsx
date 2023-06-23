@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import fetchPost from '@/app/api/route';
+import fetchPost from '@/app/fetchPost';
 
 const EditPost = ({ params }: any) => {
   const [title, setTitle] = useState('');

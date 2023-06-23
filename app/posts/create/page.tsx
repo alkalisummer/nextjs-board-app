@@ -1,12 +1,15 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
+import timeFormat from '@/app/timeFormat';
 import React, { useState } from 'react';
+import axios from 'axios';
 
 const CreatePost = () => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const router = useRouter();
+  const currentTime = timeFormat(new Date());
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -18,20 +21,25 @@ const CreatePost = () => {
       return;
     }
 
-    const request = await fetch('http://127.0.0.1:8090/api/collections/posts/records', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        title,
-        content,
-      }),
-    })
-      .then((response) => response.json())
+    const postData = {
+      type: 'insert',
+      post: {
+        post_id: 'POST' + currentTime,
+        post_title: title,
+        post_cntn: content,
+        rgsn_dttm: currentTime,
+        amnt_dttm: currentTime,
+      },
+    };
+    const request = await axios
+      .post('/api/handlePost', { postData })
+      .then((response) => response.data)
       .then(function (res) {
+        debugger;
         setTitle('');
         setContent('');
         router.refresh();
-        router.push(`/posts/detail/${res.id}`);
+        //router.push(`/posts/detail/${res.id}`);
       });
   };
   return (

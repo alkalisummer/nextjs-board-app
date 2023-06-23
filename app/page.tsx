@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import '../styles/Home.css';
 
 const HomePage = () => {
@@ -9,11 +10,15 @@ const HomePage = () => {
   const [posts, setPosts] = useState({ totalItems: 0, items: [] });
 
   useEffect(() => {
-    //getPost('read', {}).then((res) => setPosts(res));
-    fetch('/api').then((res) => {
+    getPost({ type: 'list' }).then((res) => {
       debugger;
+      setPosts(res.data.result);
     });
   }, []);
+
+  const getPost = async (param: any) => {
+    return await axios.get('/api/handlePost', { params: param });
+  };
 
   const getTotalPostsArr = () => {
     const totalPostCnt = posts.totalItems;
@@ -29,12 +34,12 @@ const HomePage = () => {
 
   const handlePagination = async (pageNum: any) => {
     const selectNum = pageNum ?? null;
-    // if (selectNum) {
-    //   await getPost('read', { pageNum: selectNum }).then((res) => {
-    //     setPosts(res);
-    //     setCurrentNum(parseInt(selectNum));
-    //   });
-    // }
+    if (selectNum) {
+      await getPost({ type: 'read', pageNum: selectNum }).then((res) => {
+        setPosts(res.data);
+        setCurrentNum(parseInt(selectNum));
+      });
+    }
   };
 
   const totalPostsArr = getTotalPostsArr();
@@ -54,7 +59,7 @@ const HomePage = () => {
         {posts.items?.map((post: any) => {
           return (
             <PostItem
-              key={post.id}
+              key={post.post_id}
               post={post}
             />
           );
@@ -89,17 +94,16 @@ const HomePage = () => {
 };
 
 const PostItem = ({ post }: any) => {
-  const { id, title, content, updated } = post || {};
-  const dateFormat = new Date(updated).toLocaleString('ko-kr', { hour12: false, timeStyle: 'short', dateStyle: 'long' });
+  const { post_id, post_title, post_cntn, amnt_dttm } = post || {};
   return (
     <div className='home_post_title_content'>
-      <Link href={`/posts/detail/${id}`}>
+      <Link href={`/posts/detail/${post_id}`}>
         <div>
-          <span className='home_post_title'>{title}</span>
-          <p className='home_post_content'>{content ? content : '작성된 내용이 없습니다.'}</p>
+          <span className='home_post_title'>{post_title}</span>
+          <p className='home_post_content'>{post_cntn ? post_cntn : '작성된 내용이 없습니다.'}</p>
         </div>
       </Link>
-      <span className='home_post_created'>{dateFormat}</span>
+      <span className='home_post_created'>{amnt_dttm}</span>
     </div>
   );
 };
