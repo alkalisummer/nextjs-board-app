@@ -11,13 +11,13 @@ const HomePage = () => {
   const [posts, setPosts] = useState({ totalItems: 0, items: [] });
 
   useEffect(() => {
-    getPost({ type: 'list' }).then((res) => {
+    getPost({ type: 'list', perPage: 6, currPageNum: 1 }).then((res) => {
       setPosts(res.data);
     });
   }, []);
 
-  const getPost = async (param: any) => {
-    return await axios.get('/api/handlePost', { params: param });
+  const getPost = (param: any) => {
+    return axios.get('/api/handlePost', { params: param });
   };
 
   const getTotalPostsArr = () => {
@@ -35,7 +35,7 @@ const HomePage = () => {
   const handlePagination = async (pageNum: any) => {
     const selectNum = pageNum ?? null;
     if (selectNum) {
-      await getPost({ type: 'read', pageNum: selectNum }).then((res) => {
+      await getPost({ type: 'list', perPage: 6, currPageNum: selectNum }).then((res) => {
         setPosts(res.data);
         setCurrentNum(parseInt(selectNum));
       });
@@ -59,7 +59,7 @@ const HomePage = () => {
         {posts.items?.map((post: any) => {
           return (
             <PostItem
-              key={post.post_id}
+              key={post.POST_ID}
               post={post}
             />
           );
@@ -94,16 +94,16 @@ const HomePage = () => {
 };
 
 const PostItem = ({ post }: any) => {
-  const { post_id, post_title, post_cntn, amnt_dttm } = post || {};
+  const { POST_ID, POST_TITLE, POST_CNTN, AMNT_DTTM } = post || {};
   return (
     <div className='home_post_title_content'>
-      <Link href={`/posts/detail/${post_id}`}>
+      <Link href={`/posts/detail/${POST_ID}`}>
         <div>
-          <span className='home_post_title'>{post_title}</span>
-          <p className='home_post_content'>{post_cntn ? post_cntn : '작성된 내용이 없습니다.'}</p>
+          <span className='home_post_title'>{POST_TITLE}</span>
+          <p className='home_post_content'>{POST_CNTN ? POST_CNTN : '작성된 내용이 없습니다.'}</p>
         </div>
       </Link>
-      <span className='home_post_created'>{timeFormat(amnt_dttm)}</span>
+      <span className='home_post_created'>{timeFormat(AMNT_DTTM)}</span>
     </div>
   );
 };

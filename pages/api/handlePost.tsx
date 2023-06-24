@@ -1,4 +1,3 @@
-import { AnySrvRecord } from 'dns';
 import { NextApiRequest, NextApiResponse } from 'next';
 
 const conn = {
@@ -12,8 +11,8 @@ const conn = {
 
 export default async function handlePost(request: NextApiRequest, response: NextApiResponse) {
   const mysql = require('mysql');
+  const connection = mysql.createConnection(conn);
   let params;
-  let connection;
   let sql = '';
   let post;
   let postId;
@@ -27,13 +26,16 @@ export default async function handlePost(request: NextApiRequest, response: Next
   } else if (request.method === 'POST') {
     params = request.body.postData;
   }
-  console.log(params);
-  connection = await mysql.createConnection(conn);
+
   await connection.connect();
 
   switch (params.type) {
     case 'list':
-      sql = 'SELECT * FROM POST ORDER BY AMNT_DTTM DESC';
+      const perPage = params.perPage;
+      const currPageNum = params.currPageNum;
+      const sttRowNum = perPage * (currPageNum - 1) + 1;
+      const eddRowNum = perPage * currPageNum;
+      sql = `SELECT * FROM (SELECT ROW_NUMBER() OVER(ORDER BY AMNT_DTTM DESC) AS PAGE_INDX, POST_ID, POST_TITLE, POST_CNTN, AMNT_DTTM, COUNT(*) OVER() AS TOTAL_ITEMS FROM POST ) AS A WHERE PAGE_INDX >= ${sttRowNum} AND PAGE_INDX <= ${eddRowNum}`;
       break;
     case 'read':
       postId = params.postId;
@@ -53,23 +55,26 @@ export default async function handlePost(request: NextApiRequest, response: Next
       break;
   }
 
-  await connection.query(sql, (err: any, data: any, fields: any) => {
-    if (err) {
-      console.log(err);
-    } else {
-      if (!data.length) {
-        result.postId = data.insertId;
+  await new Promise((resolve, reject) => {
+    connection.query(sql, (error: any, data: any, fields: any) => {
+      if (error) {
+        console.error(error);
+        reject(error);
       } else {
-        let rowArr = [];
-        for (let row of data) {
-          rowArr.push(row);
+        if (!data.length) {
+          result.postId = data.insertId;
+        } else {
+          let rowArr = [];
+          for (let row of data) {
+            rowArr.push(row);
+          }
+          result.totalItems = rowArr[0].TOTAL_ITEMS || rowArr.length;
+          result.items = rowArr;
         }
-        result.totalItems = rowArr.length;
-        result.items = rowArr;
+        resolve(response.status(200).json(result));
       }
-
-      return response.status(200).json(result);
-    }
+    });
   });
+
   connection.end();
 }
