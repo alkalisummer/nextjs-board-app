@@ -9,7 +9,7 @@ const CreatePost = () => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const router = useRouter();
-  const currentTime = timeToString(new Date());
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -20,6 +20,8 @@ const CreatePost = () => {
       alert('내용을 입력하세요.');
       return;
     }
+
+    const currentTime = timeToString(new Date());
 
     const postData = {
       type: 'insert',

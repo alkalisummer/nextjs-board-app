@@ -3,11 +3,11 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
+import timeToString from '@/app/utils/commonUtils';
 
 const EditPost = ({ params }: any) => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
-  const [recordId, setRecordId] = useState(params.id);
   const router = useRouter();
 
   const param = {
@@ -38,20 +38,24 @@ const EditPost = ({ params }: any) => {
       return;
     }
 
-    await fetch(`http://127.0.0.1:8090/api/collections/posts/records/${params.id}`, {
-      method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        title,
-        content,
-        recordId,
-      }),
+    const currentTime = timeToString(new Date());
+
+    const postData = {
+      type: 'update',
+      post: {
+        post_id: params.id,
+        post_title: title,
+        post_cntn: content,
+        amnt_dttm: currentTime,
+      },
+    };
+
+    await axios.post('/api/handlePost', { postData }).then(function () {
+      setTitle('');
+      setContent('');
+      router.refresh();
+      router.push(`/posts/detail/${params.id}`);
     });
-    setTitle('');
-    setContent('');
-    setRecordId('');
-    router.refresh();
-    router.push(`/posts/detail/${params.id}`);
   };
 
   return (
