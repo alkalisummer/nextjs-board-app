@@ -107,6 +107,11 @@
   display: none;
 }
 
+#editor {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
 @media (max-width: 768px) {
   .post_div {
     padding-left: 1.2rem !important;
