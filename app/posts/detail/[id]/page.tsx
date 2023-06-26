@@ -8,7 +8,7 @@ import { useRouter } from 'next/navigation';
 import { timeFormat } from '@/app/utils/commonUtils';
 
 const PostDetailPage = ({ params }: any) => {
-  const [post, setPost] = useState({ post_title: '', post_cntn: '', amnt_dttm: '' });
+  const [post, setPost] = useState({ post_title: '', post_cntn: '', post_html_cntn: { data: [] }, amnt_dttm: '' });
   const router = useRouter();
 
   const param = {
@@ -30,7 +30,7 @@ const PostDetailPage = ({ params }: any) => {
   const handleDelete = async () => {
     param.type = 'delete';
     await axios.get('/api/handlePost', { params: param }).then(() => {
-      setPost({ post_title: '', post_cntn: '', amnt_dttm: '' });
+      setPost({ post_title: '', post_cntn: '', post_html_cntn: { data: [] }, amnt_dttm: '' });
       router.refresh();
       router.push('/');
     });
@@ -52,7 +52,9 @@ const PostDetailPage = ({ params }: any) => {
           </span>
         </div>
       </div>
-      <p className='post_content'>{post.post_cntn}</p>
+      <p
+        className='post_content'
+        dangerouslySetInnerHTML={{ __html: Buffer.from(post.post_html_cntn.data).toString() }}></p>
     </div>
   );
 };

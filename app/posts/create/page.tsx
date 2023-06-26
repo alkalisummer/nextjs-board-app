@@ -23,13 +23,15 @@ const CreatePost = () => {
 
   useEffect(() => {
     const onUploadImage = async (imgFile: File | Blob, callBack: any) => {
-      await axios({
+      const form = new FormData();
+      form.append('file', imgFile);
+      debugger;
+      await fetch('/api/readImgFile', {
         method: 'POST',
-        url: '/api/readImgFile',
         headers: {
-          'Content-Type': 'multipart/form-data',
+          'Content-Length': imgFile.size.toString(),
         },
-        data: imgFile,
+        body: form,
       }).then((res) => {
         console.log('업로드 결과:');
         console.log(res);
@@ -63,22 +65,6 @@ const CreatePost = () => {
       alert('내용을 입력하세요.');
       return;
     }
-
-    // 오라클 클라우드 객체 스토리지에 이미지 업로드
-    // const getImageSrc = () => {
-    //   const cloudSrcArr: string[] = []; // 오라클 클라우드에 이미지 업로드 후 반환받은 이미지 url
-    //   let src;
-    //   $('img').each((idx: number, el: HTMLElement) => {
-    //     src = $(el).attr('src');
-    //     axios.post('/api/readImgFile', { imgFile });
-
-    //     debugger;
-    //   });
-
-    //   return cloudSrcArr;
-    // };
-
-    //const imageSrcArr = getImageSrc();
 
     const currentTime = timeToString(new Date());
 

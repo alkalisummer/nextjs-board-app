@@ -43,7 +43,7 @@ export default async function handlePost(request: NextApiRequest, response: Next
       break;
     case 'insert':
       post = params.post;
-      sql = `INSERT INTO POST ( POST_TITLE, POST_CNTN, RGSN_DTTM, AMNT_DTTM ) VALUES ( '${post.post_title}', '${post.post_cntn}', '${post.rgsn_dttm}', '${post.amnt_dttm}')`;
+      sql = `INSERT INTO POST ( POST_TITLE, POST_CNTN, POST_HTML_CNTN, RGSN_DTTM, AMNT_DTTM ) VALUES ( '${post.post_title}', '${post.post_cntn}','${post.post_html_cntn}', '${post.rgsn_dttm}', '${post.amnt_dttm}')`;
       break;
     case 'update':
       post = params.post;
