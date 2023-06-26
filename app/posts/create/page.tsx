@@ -5,22 +5,45 @@ import timeToString from '@/app/utils/commonUtils';
 import React, { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 import Editor from '@toast-ui/editor';
+import API_KEY from '@/app/config';
 import '@toast-ui/editor/dist/toastui-editor.css';
 
 const CreatePost = () => {
   const [title, setTitle] = useState('');
   const [editorInstance, setEditorInstance] = useState<Editor | null>(null);
   const router = useRouter();
+  // toast ui 관련
   const editorRef = useRef(null);
+
+  //html data 추출
   const cheerio = require('cheerio');
 
+  //반환 이미지 url
+  const imgURL = API_KEY.CLOUD_BUCKET_URL;
+
   useEffect(() => {
+    const onUploadImage = async (imgFile: File | Blob, callBack: any) => {
+      await axios({
+        method: 'POST',
+        url: '/api/readImgFile',
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+        data: imgFile,
+      }).then((res) => {
+        console.log('업로드 결과:');
+        console.log(res);
+        callBack(`${imgURL}/${imgFile.name}`, 'Image URL Error!!');
+        return res;
+      });
+    };
     const editor = new Editor({
       el: editorRef.current!,
       previewStyle: 'vertical',
       height: '79%',
       initialEditType: 'wysiwyg',
       initialValue: '내용을 입력하세요.',
+      hooks: { addImageBlobHook: onUploadImage },
     });
     setEditorInstance(editor);
   }, []);
@@ -41,7 +64,21 @@ const CreatePost = () => {
       return;
     }
 
-    const blob = new Blob([htmlCntn!], { type: 'text/html' });
+    // 오라클 클라우드 객체 스토리지에 이미지 업로드
+    // const getImageSrc = () => {
+    //   const cloudSrcArr: string[] = []; // 오라클 클라우드에 이미지 업로드 후 반환받은 이미지 url
+    //   let src;
+    //   $('img').each((idx: number, el: HTMLElement) => {
+    //     src = $(el).attr('src');
+    //     axios.post('/api/readImgFile', { imgFile });
+
+    //     debugger;
+    //   });
+
+    //   return cloudSrcArr;
+    // };
+
+    //const imageSrcArr = getImageSrc();
 
     const currentTime = timeToString(new Date());
 
@@ -50,7 +87,7 @@ const CreatePost = () => {
       post: {
         post_title: title,
         post_cntn: plainText,
-        post_html_cntn: blob,
+        post_html_cntn: htmlCntn,
         rgsn_dttm: currentTime,
         amnt_dttm: currentTime,
       },
