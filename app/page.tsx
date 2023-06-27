@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 'use client';
 
 import Link from 'next/link';
@@ -94,16 +95,41 @@ const HomePage = () => {
 };
 
 const PostItem = ({ post }: any) => {
-  const { POST_ID, POST_TITLE, POST_CNTN, AMNT_DTTM } = post || {};
+  const { POST_ID, POST_TITLE, POST_CNTN, POST_HTML_CNTN, AMNT_DTTM } = post || {};
+
+  //html data 에서 이미지를 추출
+  const cheerio = require('cheerio');
+  const htmlCntn = Buffer.from(POST_HTML_CNTN).toString();
+  const $ = cheerio.load(htmlCntn);
+  const imageTags = $('img');
+  const thumbImageArr = imageTags.map((index: number, el: any) => $(el).attr('src')).get()[0];
+
   return (
     <div className='home_post_title_content'>
       <Link href={`/posts/detail/${POST_ID}`}>
-        <div>
-          <span className='home_post_title'>{POST_TITLE}</span>
-          <p className='home_post_content'>{POST_CNTN ? POST_CNTN : '작성된 내용이 없습니다.'}</p>
-        </div>
+        {thumbImageArr ? (
+          <div className='home_post_thumb'>
+            <div className='home_thumb_content'>
+              <span className='home_post_title'>{POST_TITLE}</span>
+              <p className='home_post_content'>{POST_CNTN ? POST_CNTN : '작성된 내용이 없습니다.'}</p>
+              <span className='home_post_created'>{timeFormat(AMNT_DTTM)}</span>
+            </div>
+            <div>
+              <img
+                className='home_thumb_img'
+                src={thumbImageArr}
+                alt='thumbImg'
+              />
+            </div>
+          </div>
+        ) : (
+          <div>
+            <span className='home_post_title'>{POST_TITLE}</span>
+            <p className='home_post_content'>{POST_CNTN ? POST_CNTN : '작성된 내용이 없습니다.'}</p>
+            <span className='home_post_created'>{timeFormat(AMNT_DTTM)}</span>
+          </div>
+        )}
       </Link>
-      <span className='home_post_created'>{timeFormat(AMNT_DTTM)}</span>
     </div>
   );
 };

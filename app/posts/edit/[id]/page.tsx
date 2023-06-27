@@ -48,7 +48,7 @@ const EditPost = ({ params }: any) => {
         previewStyle: 'vertical',
         height: '79%',
         initialEditType: 'wysiwyg',
-        initialValue: htmlCntn,
+        initialValue: '',
         hooks: {
           addImageBlobHook: (imgFile, callBack) => {
             onUploadImage(imgFile).then((res) => {
@@ -59,12 +59,17 @@ const EditPost = ({ params }: any) => {
         },
       });
       setEditorInstance(editor);
+      editor.setHTML(htmlCntn);
     });
   };
 
   useEffect(() => {
     getPost();
   }, [params.id]);
+
+  useEffect(() => {
+    return editorInstance?.destroy();
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

@@ -32,6 +32,14 @@
 .home_post_content {
   font-size: 13px;
   color: #5c5c5c;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+  word-wrap: break-word;
+  line-height: 1.4em;
+  height: 6.9em;
 }
 
 .home_post_title_content {
@@ -91,6 +99,16 @@
 
 .home_header_div {
   display: none;
+}
+
+.home_post_thumb {
+  display: flex;
+}
+
+.home_thumb_img {
+  width: 150px;
+  height: 150px;
+  margin-left: 15px;
 }
 
 @media (max-width: 768px) {
