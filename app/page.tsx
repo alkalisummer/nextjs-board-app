@@ -114,7 +114,7 @@ const PostItem = ({ post }: any) => {
               <p className='home_post_content'>{POST_CNTN ? POST_CNTN : '작성된 내용이 없습니다.'}</p>
               <span className='home_post_created'>{timeFormat(AMNT_DTTM)}</span>
             </div>
-            <div>
+            <div className='home_thumb_img_div'>
               <img
                 className='home_thumb_img'
                 src={thumbImageArr}

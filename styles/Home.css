@@ -111,6 +111,11 @@
   margin-left: 15px;
 }
 
+.home_thumb_img_div {
+  display: flex;
+  align-items: center;
+}
+
 @media (max-width: 768px) {
   .home_post {
     padding-left: 0px;
@@ -120,6 +125,8 @@
   .home_post_title_content {
     padding-left: 1.2rem !important;
     padding-right: 1.2rem !important;
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
   }
   .home_header {
     padding-left: 1.2rem !important;
@@ -180,5 +187,15 @@
   .home_page_slct_num {
     height: 25px;
     width: 25px;
+  }
+  .home_thumb_img {
+    width: 80px !important;
+    height: 80px !important;
+    margin-left: 10px !important;
+  }
+
+  .home_post_content {
+    -webkit-line-clamp: 3 !important;
+    height: 3.9em !important;
   }
 }
