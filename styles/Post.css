@@ -44,6 +44,7 @@
   color: #555;
   overflow: auto;
   height: 83%;
+  word-break: break-all;
 }
 
 .post_title_input {
