@@ -2,7 +2,6 @@ import { NextApiRequest, NextApiResponse } from 'next';
 
 import { ObjectStorageClient } from 'oci-objectstorage';
 import { IncomingForm } from 'formidable';
-import FormData from 'form-data';
 import fs from 'fs';
 
 export const config = {
@@ -11,7 +10,7 @@ export const config = {
   },
 };
 
-export default async function readImgFile(request: NextApiRequest, response: NextApiResponse) {
+export default async function uploadImgFile(request: NextApiRequest, response: NextApiResponse) {
   const param = request.body;
   const common = require('oci-common');
 

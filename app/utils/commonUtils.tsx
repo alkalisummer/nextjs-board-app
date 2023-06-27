@@ -1,4 +1,5 @@
-import React from 'react';
+// 오라클 클라우드 api key
+import API_KEY from '@/app/config';
 
 export default function timeToString(dateParam: Date) {
   let year: number | string = dateParam.getFullYear();
@@ -38,4 +39,24 @@ export function timeFormat(currTime: string) {
   const fullTimeFormat = `${year}. ${month}. ${date}. ${hour}:${min}`;
 
   return fullTimeFormat;
+}
+
+export async function onUploadImage(imgFile: any) {
+  //반환 이미지 url
+  const imgURL = API_KEY.CLOUD_BUCKET_URL;
+  const imgName = `IMG${timeToString(new Date())}`;
+  const newImgFile = new File([imgFile], imgName, { type: imgFile.type });
+  const form = new FormData();
+
+  form.append('file', newImgFile);
+
+  await fetch('/api/uploadImgFile', {
+    method: 'POST',
+    headers: {
+      'Content-Length': newImgFile.size.toString(),
+    },
+    body: form,
+  });
+
+  return { imgName: imgName, imgUrl: `${imgURL}/${newImgFile.name}` };
 }
