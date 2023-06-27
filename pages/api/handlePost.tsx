@@ -35,7 +35,7 @@ export default async function handlePost(request: NextApiRequest, response: Next
       const currPageNum = params.currPageNum;
       const sttRowNum = perPage * (currPageNum - 1) + 1;
       const eddRowNum = perPage * currPageNum;
-      sql = `SELECT * FROM (SELECT ROW_NUMBER() OVER(ORDER BY AMNT_DTTM DESC) AS PAGE_INDX, POST_ID, POST_TITLE, POST_CNTN, AMNT_DTTM, COUNT(*) OVER() AS TOTAL_ITEMS FROM POST ) AS A WHERE PAGE_INDX >= ${sttRowNum} AND PAGE_INDX <= ${eddRowNum}`;
+      sql = `SELECT * FROM (SELECT ROW_NUMBER() OVER(ORDER BY AMNT_DTTM DESC) AS PAGE_INDX, POST_ID, POST_TITLE, POST_CNTN, POST_HTML_CNTN, AMNT_DTTM, COUNT(*) OVER() AS TOTAL_ITEMS FROM POST ) AS A WHERE PAGE_INDX >= ${sttRowNum} AND PAGE_INDX <= ${eddRowNum}`;
       break;
     case 'read':
       postId = params.postId;
@@ -47,7 +47,7 @@ export default async function handlePost(request: NextApiRequest, response: Next
       break;
     case 'update':
       post = params.post;
-      sql = `UPDATE POST SET POST_TITLE = '${post.post_title}', POST_CNTN = '${post.post_cntn}', AMNT_DTTM='${post.amnt_dttm}' WHERE POST_ID='${post.post_id}'`;
+      sql = `UPDATE POST SET POST_TITLE = '${post.post_title}', POST_CNTN = '${post.post_cntn}', POST_HTML_CNTN = '${post.post_html_cntn}', AMNT_DTTM='${post.amnt_dttm}' WHERE POST_ID='${post.post_id}'`;
       break;
     case 'delete':
       postId = params.postId;

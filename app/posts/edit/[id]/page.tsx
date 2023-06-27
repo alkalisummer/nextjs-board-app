@@ -4,9 +4,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 
-// 오라클 클라우드 api key
-import API_KEY from '@/app/config';
-
 //Toast UI 에디터
 import Editor from '@toast-ui/editor';
 import '@toast-ui/editor/dist/toastui-editor.css';
@@ -18,15 +15,13 @@ import timeToString from '@/app/utils/commonUtils';
 const EditPost = ({ params }: any) => {
   const [title, setTitle] = useState('');
   const [editorInstance, setEditorInstance] = useState<Editor | null>(null);
+  const [imgFileArr, setImgFileArr] = useState<string[]>([]);
   const router = useRouter();
   // toast ui 관련
   const editorRef = useRef(null);
 
   //html data 추출
   const cheerio = require('cheerio');
-
-  //반환 이미지 url
-  const imgURL = API_KEY.CLOUD_BUCKET_URL;
 
   const param = {
     type: '',
@@ -37,15 +32,33 @@ const EditPost = ({ params }: any) => {
     param.type = 'read';
     await axios.get('/api/handlePost', { params: param }).then((res) => {
       setTitle(res.data.items[0].post_title);
-      debugger;
+
+      //html 데이터 추출
+      const htmlCntn = Buffer.from(res.data.items[0].post_html_cntn).toString();
+      const $ = cheerio.load(htmlCntn);
+
+      //기존 이미지 파일 이름 추출
+      const imageTags = $('img');
+      const currImageArr = imageTags.map((index: number, el: any) => $(el).attr('alt')).get();
+
+      setImgFileArr(currImageArr);
+
       const editor = new Editor({
         el: editorRef.current!,
         previewStyle: 'vertical',
         height: '79%',
         initialEditType: 'wysiwyg',
-        initialValue: Buffer.from(res.data.items[0].post_html_cntn).toString(),
-        hooks: { addImageBlobHook: onUploadImage },
+        initialValue: htmlCntn,
+        hooks: {
+          addImageBlobHook: (imgFile, callBack) => {
+            onUploadImage(imgFile).then((res) => {
+              setImgFileArr((arr) => [...arr, res.imgName]);
+              callBack(res.imgUrl, res.imgName); // 첫번째 인자 : return 받은 이미지 url, 두번째 인자: alt 속성
+            });
+          },
+        },
       });
+      setEditorInstance(editor);
     });
   };
 
@@ -68,6 +81,21 @@ const EditPost = ({ params }: any) => {
       alert('내용을 입력하세요.');
       return;
     }
+
+    //현재 이미지 파일 이름 추출
+    const imageTags = $('img');
+    const currImageArr = imageTags.map((index: number, el: any) => $(el).attr('alt')).get();
+    // 지워진 이미지
+    let removedImg = [];
+
+    // 현재 이미지에서 지워진 이미지 파일 이름 추출
+    for (let originImg of imgFileArr) {
+      if (currImageArr.indexOf(originImg) === -1) {
+        removedImg.push(originImg);
+      }
+    }
+
+    axios.post('/api/deleteImgFile', { removedImg });
 
     const currentTime = timeToString(new Date());
 
