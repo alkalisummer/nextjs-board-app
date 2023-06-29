@@ -48,7 +48,7 @@ const HomePage = () => {
   return (
     <div className='home_div'>
       <div className='home_header_div'>
-        <span className='home_header_title'>Simple Board</span>
+        <span className='home_header_title'>{`Kihoon's`}</span>
       </div>
       <div className='home_post'>
         <div className='home_header'>

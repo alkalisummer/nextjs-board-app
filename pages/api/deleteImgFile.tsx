@@ -3,10 +3,12 @@ import { ObjectStorageClient } from 'oci-objectstorage';
 
 export default async function deletesImgFile(request: NextApiRequest, response: NextApiResponse) {
   const param = request.body.removedImg;
+  const path = require('path');
+  const ociConfigFilePath = path.join(process.cwd(), 'config');
 
   const common = require('oci-common');
 
-  const provider = new common.ConfigFileAuthenticationDetailsProvider('../config');
+  const provider = new common.ConfigFileAuthenticationDetailsProvider(ociConfigFilePath);
   const objectStorageClient = new ObjectStorageClient({ authenticationDetailsProvider: provider });
 
   const namespace = process.env.CLOUD_BUCKET_NAME_SPACE;

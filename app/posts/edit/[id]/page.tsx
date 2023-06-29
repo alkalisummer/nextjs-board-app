@@ -15,6 +15,7 @@ import timeToString from '@/app/utils/commonUtils';
 const EditPost = ({ params }: any) => {
   const [title, setTitle] = useState('');
   const [editorInstance, setEditorInstance] = useState<Editor | null>(null);
+  const [oriImgArr, setOriImgArr] = useState<string[]>([]);
   const [imgFileArr, setImgFileArr] = useState<string[]>([]);
   const router = useRouter();
   // toast ui 관련
@@ -39,9 +40,10 @@ const EditPost = ({ params }: any) => {
 
       //기존 이미지 파일 이름 추출
       const imageTags = $('img');
-      const currImageArr = imageTags.map((index: number, el: any) => $(el).attr('alt')).get();
+      const currImgArr = imageTags.map((index: number, el: any) => $(el).attr('alt')).get();
 
-      setImgFileArr(currImageArr);
+      setImgFileArr(currImgArr);
+      setOriImgArr(currImgArr);
 
       const editor = new Editor({
         el: editorRef.current!,
@@ -122,6 +124,22 @@ const EditPost = ({ params }: any) => {
     });
   };
 
+  const handleCancel = async () => {
+    // 지워진 이미지
+    let removedImg = [];
+    debugger;
+
+    // 현재 이미지에서 지워진 이미지 파일 이름 추출
+    for (let currImg of imgFileArr) {
+      if (oriImgArr.indexOf(currImg) === -1) {
+        removedImg.push(currImg);
+      }
+    }
+
+    await axios.post('/api/deleteImgFile', { removedImg });
+    router.push(`/posts/detail/${params.id}`);
+  };
+
   return (
     <form
       className='post_div'
@@ -142,7 +160,7 @@ const EditPost = ({ params }: any) => {
       <div className='post_btn_div'>
         <button
           className='post_cancel_btn'
-          onClick={() => router.push(`/posts/detail/${params.id}`)}
+          onClick={handleCancel}
           type='button'>
           취소
         </button>

@@ -11,8 +11,9 @@ export const config = {
 };
 
 export default async function uploadImgFile(request: NextApiRequest, response: NextApiResponse) {
-  const param = request.body;
   const common = require('oci-common');
+  const path = require('path');
+  const ociConfigFilePath = path.join(process.cwd(), 'config');
 
   const form = new IncomingForm();
 
@@ -25,7 +26,7 @@ export default async function uploadImgFile(request: NextApiRequest, response: N
       }
     });
   }).then(async (res: any) => {
-    const provider = new common.ConfigFileAuthenticationDetailsProvider('../config');
+    const provider = new common.ConfigFileAuthenticationDetailsProvider(ociConfigFilePath);
     const objectStorageClient = new ObjectStorageClient({ authenticationDetailsProvider: provider });
 
     const namespace = process.env.CLOUD_BUCKET_NAME_SPACE;

@@ -103,6 +103,7 @@
 
 .home_post_thumb {
   display: flex;
+  justify-content: space-between;
 }
 
 .home_thumb_img {

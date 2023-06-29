@@ -95,6 +95,16 @@ const CreatePost = () => {
       });
   };
 
+  const hadleCancel = () => {
+    // 이미지 제거
+    if (imgFileArr.length > 0) {
+      const removedImg = imgFileArr;
+      axios.post('/api/deleteImgFile', { removedImg });
+    }
+
+    router.push(`/`);
+  };
+
   return (
     <form
       className='post_div'
@@ -115,7 +125,7 @@ const CreatePost = () => {
       <div className='post_btn_div'>
         <button
           className='post_cancel_btn'
-          onClick={() => router.push(`/`)}
+          onClick={hadleCancel}
           type='button'>
           취소
         </button>
