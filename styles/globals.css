@@ -23,7 +23,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #b1b1b1;
+  background-color: #009bf2;
   padding-top: 15%;
 }
 
@@ -37,6 +37,12 @@ body {
   color: white;
 }
 
+.left_area_btn_div {
+  display: flex;
+  justify-content: space-around;
+  width: 100px;
+}
+
 .right_area {
   width: 77%;
   height: 100%;
@@ -44,6 +50,15 @@ body {
 
 .create_btn {
   background: url('/icon/edit.png') no-repeat 50% 50%/20px auto;
+  width: 30px;
+  height: 30px;
+  border: none;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.chatgpt_btn {
+  background: url('/icon/chatGPT.png') no-repeat 50% 50%/35px auto;
   width: 30px;
   height: 30px;
   border: none;

@@ -1,0 +1,36 @@
+.chat_div {
+  width: 100%;
+  height: 95%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  background-color: #343541;
+}
+
+.chat_content_div {
+  width: 100%;
+  height: 95%;
+}
+
+.user_input_div {
+  width: 100%;
+  height: 10%;
+  display: flex;
+  justify-content: center;
+}
+
+.user_input {
+  width: 80%;
+  height: 60%;
+  background-color: #40414f;
+  border-radius: 30px;
+  border: 1px solid rgba(32, 33, 35, 0.5);
+  padding-left: 20px;
+  padding-right: 20px;
+  font-family: 'Spoqa Han Sans Neo', 'sans-serif' !important;
+  color: white;
+
+  --tw-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  --tw-shadow-colored: 0 0 15px var(--tw-shadow-color);
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 transparent), var(--tw-ring-shadow, 0 0 transparent), var(--tw-shadow);
+}
