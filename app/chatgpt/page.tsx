@@ -21,8 +21,14 @@ const ChatGpt = () => {
     };
   }, []);
 
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+  };
+
   return (
-    <div className='chat_div'>
+    <form
+      className='chat_div'
+      onSubmit={handleSubmit}>
       <div className='chat_content_div'></div>
       <div className='user_input_div'>
         <input
@@ -32,8 +38,13 @@ const ChatGpt = () => {
           onChange={(e) => setUserInput(e.target.value)}
           placeholder='Send a message'
         />
+        <div className='chat_submit_btn_div'>
+          <button
+            type='submit'
+            className='chatSubmitBtn'></button>
+        </div>
       </div>
-    </div>
+    </form>
   );
 };
 

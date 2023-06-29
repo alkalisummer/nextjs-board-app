@@ -11,7 +11,7 @@
   padding-top: 4rem;
   display: flex;
   flex-direction: column;
-  height: 98%;
+  height: 95%;
 }
 
 .post_title_created {
@@ -53,6 +53,7 @@
   font-size: 30px;
   padding-bottom: 15px;
   font-family: 'Spoqa Han Sans Neo';
+  outline: none;
 }
 
 .post_content_textarea {
@@ -127,6 +128,7 @@ pre:has(> code) {
     padding-left: 1.2rem !important;
     padding-right: 1.2rem !important;
     padding-top: 1.5rem !important;
+    height: 99%;
   }
   .post_header {
     display: inherit;
