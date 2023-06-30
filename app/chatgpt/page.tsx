@@ -1,10 +1,11 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import '../../styles/chat.css';
 
 const ChatGpt = () => {
-  const [chatContent, setChatContent] = useState([]);
+  const [chatContent, setChatContent] = useState<{ role: string; content: string }[]>([]);
   const [userInput, setUserInput] = useState('');
 
   useEffect(() => {
@@ -23,6 +24,45 @@ const ChatGpt = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (userInput.replaceAll(' ', '').length === 0) {
+      return;
+    }
+    setUserInput('');
+
+    const tmpChat = chatContent.map((obj) => obj);
+
+    // gpt 응답을 받기전까지 사용자 input disabled
+    const userInputEl = document.getElementsByClassName('user_input')[0] as HTMLInputElement;
+    userInputEl.disabled = true;
+
+    const userCntnDiv = document.createElement('div');
+    userCntnDiv.innerHTML = `<div class='user_cntn_div'>
+                               <img class='user_img' src='/icon/user.png' alt='userimg'>
+                               <span class = 'user_cntn_text'>${userInput}</span>
+                             </div>`;
+
+    document.querySelector('.chat_content_div')?.append(userCntnDiv);
+
+    //주고 받은 대화가 6문장이 넘어갈시 주고받은 직전 질문 제외 최근 6문장만 가져옴
+    if (tmpChat.length >= 8) {
+      tmpChat.splice(-8, 2);
+    }
+    //이전 대화를 유지하기 위해 기존 대화에 push
+    const userMsg = { role: 'user', content: userInput };
+    tmpChat.push(userMsg);
+
+    axios.post('/api/chatGptHandle', { chatContent: tmpChat }).then((res) => {
+      tmpChat.push(res.data.chatGptRes);
+      setChatContent(tmpChat);
+      const gptCntnDiv = document.createElement('div');
+      gptCntnDiv.innerHTML = `<div class='gpt_cntn_div'>
+                                <img class='gpt_img' src='/icon/gptIcon.png' alt='gptimg'>
+                                <span class = 'gpt_cntn_text'>${res.data.chatGptRes.content}</span>
+                              </div>`;
+      document.querySelector('.chat_content_div')?.append(gptCntnDiv);
+      userInputEl.disabled = false;
+    });
   };
 
   return (
@@ -41,7 +81,7 @@ const ChatGpt = () => {
         <div className='chat_submit_btn_div'>
           <button
             type='submit'
-            className='chatSubmitBtn'></button>
+            className='chat_submit_btn'></button>
         </div>
       </div>
     </form>
