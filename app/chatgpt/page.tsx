@@ -1,23 +1,26 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import '../../styles/chat.css';
 
 const ChatGpt = () => {
   const [chatContent, setChatContent] = useState<{ role: string; content: string }[]>([]);
   const [userInput, setUserInput] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     const footer: any = document.getElementsByClassName('right_footer')[0];
     const leftArea: any = document.getElementsByClassName('left_area')[0];
-    footer.style.backgroundColor = '#343541';
-    footer.style.borderColor = '#545562';
+    footer.style.display = 'none';
+
     leftArea.style.backgroundColor = '#202123';
 
     return () => {
-      footer.style.backgroundColor = 'white';
-      footer.style.borderColor = '#efefef';
+      footer.style.display = 'flex';
       leftArea.style.backgroundColor = '#009bf2';
     };
   }, []);
@@ -28,6 +31,7 @@ const ChatGpt = () => {
     if (userInput.replaceAll(' ', '').length === 0) {
       return;
     }
+    setIsLoading(true);
     setUserInput('');
 
     const tmpChat = chatContent.map((obj) => obj);
@@ -62,6 +66,7 @@ const ChatGpt = () => {
                               </div>`;
       document.querySelector('.chat_content_div')?.append(gptCntnDiv);
       userInputEl.disabled = false;
+      setIsLoading(false);
     });
   };
 
@@ -69,6 +74,15 @@ const ChatGpt = () => {
     <form
       className='chat_div'
       onSubmit={handleSubmit}>
+      <div className='chat_header_div'>
+        <span
+          className='chat_back_arrow'
+          onClick={() => router.back()}>
+          &lt;
+        </span>
+        <span className='chat_header_title'>ChatGPT</span>
+      </div>
+      {isLoading ? <CircularProgress color='primary' /> : <></>}
       <div className='chat_content_div'></div>
       <div className='user_input_div'>
         <input

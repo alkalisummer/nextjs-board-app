@@ -48,14 +48,19 @@ const HomePage = () => {
   return (
     <div className='home_div'>
       <div className='home_header_div'>
-        <span className='home_header_title'>{`Kihoon's`}</span>
+        <span className='home_header_title'>{`kyuuun`}</span>
       </div>
       <div className='home_post'>
         <div className='home_header'>
           <span className='home_post_cnt'>{`전체 글(${posts.items.length})`}</span>
-          <Link href={'/posts/create'}>
-            <button className='create_btn'></button>
-          </Link>
+          <div className='home_header_btn'>
+            <Link href={'/chatgpt'}>
+              <button className='chatgpt_btn'>ChatGPT</button>
+            </Link>
+            <Link href={'/posts/create'}>
+              <button className='create_btn'>글쓰기</button>
+            </Link>
+          </div>
         </div>
         {posts.items?.map((post: any) => {
           return (

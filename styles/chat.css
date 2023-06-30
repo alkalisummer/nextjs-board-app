@@ -1,10 +1,14 @@
 .chat_div {
   width: 100%;
-  height: 95%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   background-color: #343541;
+}
+
+.chat_header_div {
+  display: none;
 }
 
 .chat_content_div {
@@ -62,6 +66,7 @@
   height: 10%;
   display: flex;
   justify-content: center;
+  margin-bottom: 15px;
 }
 
 .user_input {
@@ -103,4 +108,44 @@
   width: 40px;
   height: 30px;
   margin-top: 17px;
+}
+
+.MuiCircularProgress-root {
+  position: absolute !important;
+  top: 50% !important;
+  right: 38% !important;
+}
+
+.MuiCircularProgress-colorPrimary {
+  color: #ffffff !important;
+}
+
+@media (max-width: 768px) {
+  .MuiCircularProgress-root {
+    position: absolute !important;
+    top: 50% !important;
+    right: 45% !important;
+  }
+
+  .chat_header_div {
+    display: initial;
+    width: 100%;
+    height: 5%;
+    text-align: center;
+    border-bottom: 1px solid #545562;
+    line-height: 40px;
+  }
+
+  .chat_header_title {
+    color: #b0b0b1;
+    font-size: 15px;
+    font-weight: normal;
+  }
+
+  .chat_back_arrow {
+    color: #b0b0b1;
+    position: absolute;
+    left: 15px;
+    cursor: pointer;
+  }
 }

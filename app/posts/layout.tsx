@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
+
   return (
     <div className='post_area'>
       <div className='post_header'>
@@ -13,7 +14,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           onClick={() => router.back()}>
           &lt;
         </span>
-        <span className='post_header_title'>Simple Board</span>
+        <span className='post_header_title'>kyuuun</span>
       </div>
       <div className='post_main'>{children}</div>
     </div>

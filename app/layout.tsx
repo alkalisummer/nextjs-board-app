@@ -14,7 +14,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <div className='main_area'>
           <div className='left_area'>
             <Link href={'/'}>
-              <span className='left_area_title'>{`Kihoon's`}</span>
+              <span className='left_area_title'>{`kyuuun`}</span>
             </Link>
             <div className='left_area_btn_div'>
               <Link href={'/posts/create'}>
