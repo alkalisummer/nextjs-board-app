@@ -10,7 +10,6 @@
   },
   "dependencies": {
     "@material-ui/core": "^4.12.4",
-    "@toast-ui/editor": "^3.2.2",
     "@toast-ui/react-editor": "^3.2.3",
     "@types/node": "20.3.0",
     "@types/react": "18.2.11",

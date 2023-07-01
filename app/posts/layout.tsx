@@ -11,7 +11,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <div className='post_header'>
         <span
           className='post_back_arrow'
-          onClick={() => router.back()}>
+          onClick={() => router.push('/')}>
           &lt;
         </span>
         <span className='post_header_title'>kyuuun</span>

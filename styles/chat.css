@@ -84,6 +84,8 @@
   color: white;
   outline: none;
   margin-top: 10px;
+  padding-top: 0px;
+  padding-bottom: 0px;
 }
 
 .chat_submit_btn_div {
@@ -93,7 +95,7 @@
   border-radius: 30px;
   border-bottom-left-radius: 0px;
   border-top-left-radius: 0px;
-  height: 58px;
+  height: 56px;
   margin-top: 10px;
 }
 

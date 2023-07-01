@@ -11,13 +11,13 @@
   padding-top: 4rem;
   display: flex;
   flex-direction: column;
-  height: 95%;
+  height: 91%;
 }
 
 .post_title_created {
   display: flex;
   flex-direction: column;
-  border-bottom: 1px solid #efefef;
+  border-bottom: 1px solid #efefef !important;
 }
 
 .post_title {
@@ -128,7 +128,7 @@ pre:has(> code) {
     padding-left: 1.2rem !important;
     padding-right: 1.2rem !important;
     padding-top: 1.5rem !important;
-    height: 99%;
+    height: 94%;
   }
   .post_header {
     display: inherit;
@@ -146,9 +146,6 @@ pre:has(> code) {
 
   .post_main {
     height: 95%;
-  }
-  .post_title_created {
-    border-bottom: none;
   }
 
   .post_title {
@@ -176,5 +173,17 @@ pre:has(> code) {
 
   .post_content_textarea {
     font-size: 13px !important;
+  }
+
+  .toastui-editor-popup {
+    left: 50vw !important;
+  }
+
+  .toastui-editor-file-name {
+    width: 48% !important;
+  }
+
+  .toastui-editor-file-select-button {
+    width: 40% !important;
   }
 }

@@ -77,7 +77,7 @@ const ChatGpt = () => {
       <div className='chat_header_div'>
         <span
           className='chat_back_arrow'
-          onClick={() => router.back()}>
+          onClick={() => router.push('/')}>
           &lt;
         </span>
         <span className='chat_header_title'>ChatGPT</span>

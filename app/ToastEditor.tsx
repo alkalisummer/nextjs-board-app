@@ -157,9 +157,15 @@ const ToastEditor = ({ mode, postId }: { mode: string; postId: string | null }) 
       </div>
       <Editor
         ref={editorRef}
-        height='79%'
+        height='86%'
         initialEditType='wysiwyg'
         initialValue='내용을 입력하세요.'
+        toolbarItems={[
+          ['bold', 'italic', 'strike', 'hr'],
+          ['image', 'table'],
+          ['ul', 'ol', 'task'],
+          ['code', 'codeblock'],
+        ]}
         hooks={{
           addImageBlobHook: (imgFile, callBack) => {
             onUploadImage(imgFile).then((res) => {
