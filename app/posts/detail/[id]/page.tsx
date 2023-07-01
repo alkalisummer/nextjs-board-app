@@ -1,6 +1,7 @@
 'use client';
 
 import '../../../../styles/Post.css';
+import '@toast-ui/editor/dist/toastui-editor.css';
 import Link from 'next/link';
 import axios from 'axios';
 import { useEffect, useState, useMemo } from 'react';
@@ -73,7 +74,7 @@ const PostDetailPage = ({ params }: any) => {
         </div>
       </div>
       <p
-        className='post_content'
+        className='toastui-editor-contents post_content'
         dangerouslySetInnerHTML={{ __html: Buffer.from(post.post_html_cntn.data).toString() }}></p>
     </div>
   );

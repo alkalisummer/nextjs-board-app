@@ -37,8 +37,10 @@ const HomePage = () => {
     const selectNum = pageNum ?? null;
     if (selectNum) {
       await getPost({ type: 'list', perPage: 6, currPageNum: selectNum }).then((res) => {
-        setPosts(res.data);
-        setCurrentNum(parseInt(selectNum));
+        if (res.data.length > 0) {
+          setPosts(res.data);
+          setCurrentNum(parseInt(selectNum));
+        }
       });
     }
   };
