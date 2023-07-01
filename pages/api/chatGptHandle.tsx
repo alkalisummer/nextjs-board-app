@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 
-export default async function chatGptHandle(request: NextApiRequest, response: NextApiResponse) {
+export default async function ChatGptHandle(request: NextApiRequest, response: NextApiResponse) {
   const chatContent = request.body.chatContent;
   const { Configuration, OpenAIApi } = require('openai');
 

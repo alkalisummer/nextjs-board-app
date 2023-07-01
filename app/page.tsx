@@ -4,7 +4,7 @@
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { timeFormat } from './utils/commonUtils';
+import { timeFormat } from './utils/CommonUtils';
 import '../styles/Home.css';
 
 const HomePage = () => {
@@ -18,7 +18,7 @@ const HomePage = () => {
   }, []);
 
   const getPost = (param: any) => {
-    return axios.get('/api/handlePost', { params: param });
+    return axios.get('/api/HandlePost', { params: param });
   };
 
   const getTotalPostsArr = () => {

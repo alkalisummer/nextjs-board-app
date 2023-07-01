@@ -50,7 +50,7 @@ export async function onUploadImage(imgFile: any) {
 
   form.append('file', newImgFile);
 
-  await fetch('/api/uploadImgFile', {
+  await fetch('/api/UploadImgFile', {
     method: 'POST',
     headers: {
       'Content-Length': newImgFile.size.toString(),

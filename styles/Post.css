@@ -111,7 +111,7 @@
   display: none;
 }
 
-#editor {
+div:has(> .toastui-editor-defaultUI) {
   margin-top: 20px;
   margin-bottom: 20px;
 }

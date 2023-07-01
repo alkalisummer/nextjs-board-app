@@ -9,7 +9,7 @@ const conn = {
   database: process.env.CLOUD_MYSQL_DATABASE_NM,
 };
 
-export default async function handlePost(request: NextApiRequest, response: NextApiResponse) {
+export default async function HandlePost(request: NextApiRequest, response: NextApiResponse) {
   const mysql = require('mysql');
   const connection = mysql.createConnection(conn);
   let params;
