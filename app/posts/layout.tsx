@@ -1,5 +1,4 @@
 'use client';
-import Link from 'next/link';
 import '../../styles/Post.css';
 import { useRouter } from 'next/navigation';
 

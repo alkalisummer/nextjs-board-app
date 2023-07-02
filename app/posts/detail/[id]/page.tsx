@@ -1,6 +1,5 @@
 'use client';
 
-import '../../../../styles/Post.css';
 import '@toast-ui/editor/dist/toastui-editor.css';
 import Link from 'next/link';
 import axios from 'axios';

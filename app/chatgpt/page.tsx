@@ -70,6 +70,11 @@ const ChatGpt = () => {
     });
   };
 
+  const clearChat = () => {
+    setChatContent([]);
+    document.querySelector('.chat_content_div')!.innerHTML = '';
+  };
+
   return (
     <form
       className='chat_div'
@@ -81,6 +86,10 @@ const ChatGpt = () => {
           &lt;
         </span>
         <span className='chat_header_title'>ChatGPT</span>
+        <button
+          type='button'
+          className='char_clear_btn'
+          onClick={clearChat}></button>
       </div>
       {isLoading ? <CircularProgress color='primary' /> : <></>}
       <div className='chat_content_div'></div>
