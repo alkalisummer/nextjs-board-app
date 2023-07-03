@@ -12,7 +12,7 @@ const HomePage = () => {
   const [posts, setPosts] = useState({ totalItems: 0, items: [] });
 
   useEffect(() => {
-    getPost({ type: 'list', perPage: 6, currPageNum: 1 }).then((res) => {
+    getPost({ type: 'list', perPage: 2, currPageNum: 1 }).then((res) => {
       setPosts(res.data);
     });
   }, []);
@@ -23,7 +23,7 @@ const HomePage = () => {
 
   const getTotalPostsArr = () => {
     const totalPostCnt = posts.totalItems;
-    const totalPageNum = totalPostCnt % 6 > 0 ? totalPostCnt / 6 + 1 : totalPostCnt / 6;
+    const totalPageNum = totalPostCnt % 2 > 0 ? totalPostCnt / 2 + 1 : totalPostCnt / 2;
     let arr = [];
 
     for (let i = 1; i <= totalPageNum; i++) {
@@ -36,8 +36,8 @@ const HomePage = () => {
   const handlePagination = async (pageNum: any) => {
     const selectNum = pageNum ?? null;
     if (selectNum) {
-      await getPost({ type: 'list', perPage: 6, currPageNum: selectNum }).then((res) => {
-        if (res.data.length > 0) {
+      await getPost({ type: 'list', perPage: 2, currPageNum: selectNum }).then((res) => {
+        if (res.data.items && res.data.items.length > 0) {
           setPosts(res.data);
           setCurrentNum(parseInt(selectNum));
         }
@@ -73,30 +73,28 @@ const HomePage = () => {
           );
         })}
       </div>
-      {
-        <div className='home_page_nav'>
-          <span
-            className='home_page_nav_prev'
-            onClick={(e) => handlePagination(currentNum - 1)}>
-            <span className='home_page_nav_arr'>&lt;</span> &nbsp;&nbsp;Prev
-          </span>
-          {totalPostsArr.map((obj: number, idx: number) => {
-            return (
-              <span
-                key={idx}
-                className={`home_page_num ${currentNum === idx + 1 ? 'home_page_slct_num' : ''}`}
-                onClick={(e) => handlePagination(e.currentTarget.textContent)}>
-                {obj}
-              </span>
-            );
-          })}
-          <span
-            className='home_page_nav_next'
-            onClick={(e) => handlePagination(currentNum + 1)}>
-            Next&nbsp;&nbsp; <span className='home_page_nav_arr'>&gt;</span>
-          </span>
-        </div>
-      }
+      <div className='home_page_nav'>
+        <span
+          className='home_page_nav_prev'
+          onClick={(e) => handlePagination(currentNum - 1)}>
+          <span className='home_page_nav_arr'>&lt;</span> &nbsp;&nbsp;Prev
+        </span>
+        {totalPostsArr.map((obj: number, idx: number) => {
+          return (
+            <span
+              key={idx}
+              className={`home_page_num ${currentNum === idx + 1 ? 'home_page_slct_num' : ''}`}
+              onClick={(e) => handlePagination(e.currentTarget.textContent)}>
+              {obj}
+            </span>
+          );
+        })}
+        <span
+          className='home_page_nav_next'
+          onClick={(e) => handlePagination(currentNum + 1)}>
+          Next&nbsp;&nbsp; <span className='home_page_nav_arr'>&gt;</span>
+        </span>
+      </div>
     </div>
   );
 };
